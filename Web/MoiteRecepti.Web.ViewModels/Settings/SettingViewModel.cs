@@ -1,9 +1,8 @@
 ﻿namespace MoiteRecepti.Web.ViewModels.Settings
 {
+    using AutoMapper;
     using MoiteRecepti.Data.Models;
     using MoiteRecepti.Services.Mapping;
-
-    using AutoMapper;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {

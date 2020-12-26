@@ -3,9 +3,8 @@
     using System;
     using System.Threading.Tasks;
 
-    using MoiteRecepti.Data.Common;
-
     using Microsoft.EntityFrameworkCore;
+    using MoiteRecepti.Data.Common;
 
     public class DbQueryRunner : IDbQueryRunner
     {
