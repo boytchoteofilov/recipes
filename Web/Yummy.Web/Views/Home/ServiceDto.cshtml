@@ -1,0 +1,10 @@
+@model Yummy.Web.ViewModels.Home.ServiceViewModel
+@{
+    this.ViewData["Title"] = "Privacy Policy";
+}
+<h1>@this.ViewData["Title"]</h1>
+
+<p>All categories count using service in the controller:</p>
+<p>@Model.CategoriesCount</p>
+<p>@Model.RecipesCount</p>
+

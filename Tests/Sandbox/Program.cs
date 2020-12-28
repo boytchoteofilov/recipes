@@ -10,14 +10,14 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using MoiteRecepti.Data;
-    using MoiteRecepti.Data.Common;
-    using MoiteRecepti.Data.Common.Repositories;
-    using MoiteRecepti.Data.Models;
-    using MoiteRecepti.Data.Repositories;
-    using MoiteRecepti.Data.Seeding;
-    using MoiteRecepti.Services.Data;
-    using MoiteRecepti.Services.Messaging;
+    using Yummy.Data;
+    using Yummy.Data.Common;
+    using Yummy.Data.Common.Repositories;
+    using Yummy.Data.Models;
+    using Yummy.Data.Repositories;
+    using Yummy.Data.Seeding;
+    using Yummy.Services.Data;
+    using Yummy.Services.Messaging;
 
     public static class Program
     {
