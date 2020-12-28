@@ -7,12 +7,27 @@
 
     using Microsoft.AspNetCore.Mvc;
     using Yummy.Web.ViewModels.Recipes;
+    using Yummy.Services.Data;
+    using Yummy.Web.ViewModels.Categories;
 
     public class RecipesController : Controller
     {
+        private readonly ICategoriesService categoriesService;
+
+        public RecipesController(ICategoriesService categoriesService)
+        {
+            this.categoriesService = categoriesService;
+        }
+
         public IActionResult Create()
         {
-            return this.View();
+            var categories = this.categoriesService.GetAll<CategoriesForDropdownMenuIM>();
+            var vm = new CreateRecipeInputModel()
+            {
+                Categories = categories,
+            };
+
+            return this.View(vm);
         }
 
         [HttpPost]
