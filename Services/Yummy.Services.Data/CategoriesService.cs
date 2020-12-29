@@ -21,7 +21,7 @@
 
         public IEnumerable<T> GetAll<T>()
         {
-            var query = this.categoriesRepository.All().OrderBy(x => x.Name);
+            var query = this.categoriesRepository.AllAsNoTracking().OrderBy(x => x.Name);
 
             var result = query.To<T>().ToList();
 

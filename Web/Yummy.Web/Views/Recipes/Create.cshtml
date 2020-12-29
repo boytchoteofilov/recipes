@@ -1,5 +1,5 @@
 ﻿@model Yummy.Web.ViewModels.Recipes.CreateRecipeInputModel
-@{ 
+@{
     this.ViewData["Title"] = "Create new recipe";
     var categories = Model.Categories.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
 }
@@ -21,23 +21,18 @@
     </div>
     <div class="form-group row">
         <label asp-for="PortionsCount" class="col-form-label col-sm-2"></label>
-        <textarea asp-for="PortionsCount" rows="5" class="form-control col-sm-4"></textarea>
+        <input asp-for="PortionsCount" class="form-control col-sm-4" />
         <span asp-validation-for="PortionsCount" class="col-form-label col-sm-4"></span>
     </div>
     <div class="form-group row">
         <label asp-for="PreparationTime" class="col-form-label col-sm-2"></label>
-        <textarea asp-for="PreparationTime" rows="5" class="form-control col-sm-4"></textarea>
+        <input asp-for="PreparationTime" class="form-control col-sm-4" />
         <span asp-validation-for="PreparationTime" class="col-form-label col-sm-4"></span>
     </div>
     <div class="form-group row">
         <label asp-for="CookingTime" class="col-form-label col-sm-2"></label>
-        <textarea asp-for="CookingTime" rows="5" class="form-control col-sm-4"></textarea>
+        <input asp-for="CookingTime" class="form-control col-sm-4" />
         <span asp-validation-for="CookingTime" class="col-form-label col-sm-4"></span>
-    </div>
-    <div class="form-group row">
-        <label asp-for="Ingredients" class="col-form-label col-sm-2"></label>
-        <textarea asp-for="Ingredients" rows="5" class="form-control col-sm-4"></textarea>
-        <span asp-validation-for="Ingredients" class="col-form-label col-sm-4"></span>
     </div>
     <div class="form-group row">
         <label asp-for="CategoryId" class="col-form-label col-sm-2"></label>
@@ -45,5 +40,22 @@
         <span asp-validation-for="CategoryId" class="col-form-label col-sm-4"></span>
     </div>
 
+    <div class="form-group row">
+        <label asp-for="Ingredients" class="col-form-label col-sm-2"></label>
+        <span id="Ingredients" class="col-sm-6"></span>
+        <a class="btn btn-success" onclick="AddIngredient()">+</a>
+    </div>
+
     <input type="submit" class="btn btn-primary" />
 </form>
+
+@section Scripts{
+    <script>
+        var ingredientIndex = 0;
+        function AddIngredient() {           
+            $('#Ingredients').append("<label> Name: </label> <input type='text' name='Ingredients[" + ingredientIndex + "].IngredientName' /> <label> Quantity: </label> <input name='Ingredients[" + ingredientIndex + "].IngredientQuantity' /> ");
+            ingredientIndex++;
+            console.log(ingredientIndex);
+        }
+    </script>
+} 

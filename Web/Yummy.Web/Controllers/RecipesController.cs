@@ -35,10 +35,13 @@
         {
             if (!this.ModelState.IsValid)
             {
+                input.Categories = this.categoriesService.GetAll<CategoriesForDropdownMenuIM>();
                 return this.View(input);
             }
 
-            return this.RedirectToAction("/");
+          return this.Json(input);
+
+            return this.RedirectToAction("Index");
         }
     }
 }
