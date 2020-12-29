@@ -3,26 +3,25 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Text;
 
     using Yummy.Web.ViewModels.Categories;
 
     public class CreateRecipeInputModel
     {
-        //[Required]
-        //[MinLength(6)]
+        [Required]
+        [MinLength(6)]
         public string Name { get; set; }
 
-        //[Required]
-        //[MinLength(100)]
+        [Required]
+        [MinLength(100)]
         public string Instructions { get; set; }
 
-        //[Range(1, 300)]
-        //[Display(Name = "Preparation Time (in minutes)")]
+        [Range(1, 300)]
+        [Display(Name = "Preparation Time (in minutes)")]
         public int PreparationTime { get; set; }
 
-        //[Range(1, 300)]
-        //[Display(Name = "Cooking Time (in minutes)")]
+        [Range(1, 300)]
+        [Display(Name = "Cooking Time (in minutes)")]
         public int CookingTime { get; set; }
 
         [Range(1, 12)]

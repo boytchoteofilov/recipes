@@ -7,7 +7,6 @@
     using Yummy.Data;
     using Yummy.Data.Common.Repositories;
     using Yummy.Data.Models;
-    using Yummy.Data.Repositories;
     using Yummy.Services.Data;
     using Yummy.Web.ViewModels;
     using Yummy.Web.ViewModels.Home;

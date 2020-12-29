@@ -1,9 +1,6 @@
 ﻿namespace Yummy.Web.ViewModels.Recipes
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Text;
 
     public class RecipeIngredientsInputModel
     {

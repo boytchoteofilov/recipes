@@ -1,8 +1,6 @@
 ﻿namespace Yummy.Data.Models
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
 
     using Yummy.Data.Common.Models;
 

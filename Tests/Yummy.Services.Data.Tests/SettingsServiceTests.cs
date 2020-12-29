@@ -5,12 +5,12 @@
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
+    using Moq;
+    using Xunit;
     using Yummy.Data;
     using Yummy.Data.Common.Repositories;
     using Yummy.Data.Models;
     using Yummy.Data.Repositories;
-    using Moq;
-    using Xunit;
 
     public class SettingsServiceTests
     {

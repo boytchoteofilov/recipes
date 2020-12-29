@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Yummy.Services.Data.DTOs
+﻿namespace Yummy.Services.Data.DTOs
 {
     public class CountsDTO
     {

@@ -1,22 +1,23 @@
 ﻿namespace Yummy.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-    using Yummy.Web.ViewModels.Recipes;
     using Yummy.Services.Data;
     using Yummy.Web.ViewModels.Categories;
+    using Yummy.Web.ViewModels.Recipes;
 
     public class RecipesController : Controller
     {
         private readonly ICategoriesService categoriesService;
+        private readonly IRecipeService recipeService;
 
-        public RecipesController(ICategoriesService categoriesService)
+        public RecipesController(
+            ICategoriesService categoriesService,
+            IRecipeService recipeService)
         {
             this.categoriesService = categoriesService;
+            this.recipeService = recipeService;
         }
 
         public IActionResult Create()
@@ -31,7 +32,7 @@
         }
 
         [HttpPost]
-        public IActionResult Create(CreateRecipeInputModel input)
+        public async Task<IActionResult> Create(CreateRecipeInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
@@ -39,9 +40,10 @@
                 return this.View(input);
             }
 
-          return this.Json(input);
+            await this.recipeService.AddRecipeAsync(input);
 
-            return this.RedirectToAction("Index");
+            ////TODO: redirect to show the recipe
+            return this.Redirect("/");
         }
     }
 }
