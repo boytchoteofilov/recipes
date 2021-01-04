@@ -8,6 +8,7 @@
 
     using Yummy.Data.Common.Repositories;
     using Yummy.Data.Models;
+    using Yummy.Services.Mapping;
     using Yummy.Web.ViewModels.Recipes;
 
     public class RecipeService : IRecipeService
@@ -23,7 +24,7 @@
             this.ingredientsRepository = ingredientsRepository;
         }
 
-        public async Task AddRecipeAsync(CreateRecipeInputModel input)
+        public async Task AddRecipeAsync(CreateRecipeInputModel input, string userId)
         {
             var recipe = new Recipe()
             {
@@ -33,6 +34,7 @@
                 PortionsCount = input.PortionsCount,
                 PreparationTime = TimeSpan.FromMinutes(input.PreparationTime),
                 CookingTime = TimeSpan.FromMinutes(input.CookingTime),
+                AddedByUserId = userId,
             };
 
             foreach (var ingredientItem in input.Ingredients)
@@ -55,6 +57,33 @@
 
             await this.recipesRepository.AddAsync(recipe);
             await this.recipesRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<T> AllPaged<T>(int page, int itemsPerPage)
+        {
+            // must be sorted in order to use Skip() and Take()
+            var recipesPerPage = this.recipesRepository
+                .AllAsNoTracking().OrderByDescending(x => x.Id)
+                .Skip(itemsPerPage * (page - 1))
+                .Take(itemsPerPage)
+                .To<T>()
+
+                // use automapper instead
+                // .Select(x => new RecipesInListViewModel()
+                // {
+                //    Id = x.Id,
+                //    Name = x.Name,
+                //    Instructions = x.Instructions,
+                //    CategoryId = x.CategoryId,
+                //    CategoryName = x.Category.Name,
+                //    ImageOriginalUrl =
+                //        x.Images.FirstOrDefault().RemoteImageUrl != null ?
+                //        x.Images.FirstOrDefault().RemoteImageUrl :
+                //        "images/recipes/" + x.Images.FirstOrDefault().Id + "." + x.Images.FirstOrDefault().Extension,
+                // } )
+                .ToList();
+
+            return recipesPerPage;
         }
     }
 }

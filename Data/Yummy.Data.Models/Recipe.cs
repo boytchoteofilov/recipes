@@ -22,6 +22,8 @@
 
         public int PortionsCount { get; set; }
 
+        public string OriginalUrl { get; set; }
+
         public string AddedByUserId { get; set; }
 
         public ApplicationUser AddedByUser { get; set; }

@@ -29,6 +29,7 @@
 
         public int CategoryId { get; set; }
 
+        [Required]
         public IEnumerable<RecipeIngredientsInputModel> Ingredients { get; set; }
 
         public IEnumerable<CategoriesForDropdownMenuIM> Categories { get; set; }
