@@ -1,6 +1,6 @@
 ﻿@model Yummy.Web.ViewModels.Recipes.RecipesListViewModel
 @{
-    this.ViewData["Title"] = "All recipes";
+    this.ViewData["Title"] = "Recipes and page " + Model.CurrentPage;
 }
 <h1>@this.ViewData["Title"]</h1>
 
@@ -15,17 +15,11 @@
                 @recipe.Instructions
             </div>
         </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@recipe.Id">Edit</a>
+        </div>
     }
 </div>
 
 <hr />
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-        <li class="page-item"><a class="page-link" href="1">1</a></li>
-        <li class="page-item"><a class="page-link" href="2">2</a></li>
-        <li class="page-item"><a class="page-link" href="3">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-    </ul>
-</nav>
-
+<partial name="_PagingPartial" model="@Model"/>

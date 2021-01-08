@@ -2,10 +2,10 @@
 {
     using System.Collections.Generic;
 
-    public class RecipesListViewModel
+    using Yummy.Web.ViewModels.Paging;
+
+    public class RecipesListViewModel : PagingViewModel
     {
         public IEnumerable<RecipesInListViewModel> Recipes { get; set; }
-
-        public int PageNumber { get; set; }
     }
 }

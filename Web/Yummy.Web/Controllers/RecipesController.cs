@@ -30,13 +30,40 @@
         public IActionResult All(int id = 1)
         {
             var currentPage = id;
+            var itemsPerPage = 12;
             var vm = new RecipesListViewModel()
             {
-                PageNumber = currentPage,
-                Recipes = this.recipeService.AllPaged<RecipesInListViewModel>(currentPage, 12),
+                ItemsPerPage = itemsPerPage,
+                CurrentPage = currentPage,
+                Recipes = this.recipeService.AllPaged<RecipesInListViewModel>(currentPage, itemsPerPage),
             };
 
             return this.View(vm);
+        }
+
+        [Authorize]
+        public IActionResult Edit(int id)
+        {
+            var categories = this.categoriesService.GetAll<CategoriesForDropdownMenuIM>();
+            var vm = this.recipeService.ById(id);
+
+            return this.View(vm);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditRecipeInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                input.Categories = this.categoriesService.GetAll<CategoriesForDropdownMenuIM>();
+
+                return this.View(input);
+            }
+
+            await this.recipeService.UpdateRecipeAsync(input);
+
+            return this.Redirect("/");
         }
 
         [Authorize]
@@ -64,7 +91,7 @@
             // user taken from the cookie
             // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var user = await this.userManager.GetUserAsync(this.User);
-            await this.recipeService.AddRecipeAsync(input, user.Id);
+            await this.recipeService.CreateRecipeAsync(input, user.Id);
 
             ////TODO: redirect to show the recipe
             return this.Redirect("/");

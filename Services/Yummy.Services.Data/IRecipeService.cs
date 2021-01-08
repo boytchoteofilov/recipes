@@ -7,8 +7,14 @@
 
     public interface IRecipeService
     {
-       Task AddRecipeAsync(CreateRecipeInputModel input, string userId);
+        Task CreateRecipeAsync(CreateRecipeInputModel input, string userId);
 
-       IEnumerable<T> AllPaged<T>(int page, int itemsPerPage);
+        Task UpdateRecipeAsync(EditRecipeInputModel input);
+
+        IEnumerable<T> AllPaged<T>(int page, int itemsPerPage);
+
+        IEnumerable<T> All<T>();
+
+        EditRecipeInputModel ById(int recipeId);
     }
 }

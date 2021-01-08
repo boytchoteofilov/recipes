@@ -24,7 +24,7 @@
             this.ingredientsRepository = ingredientsRepository;
         }
 
-        public async Task AddRecipeAsync(CreateRecipeInputModel input, string userId)
+        public async Task CreateRecipeAsync(CreateRecipeInputModel input, string userId)
         {
             var recipe = new Recipe()
             {
@@ -84,6 +84,48 @@
                 .ToList();
 
             return recipesPerPage;
+        }
+
+        public async Task UpdateRecipeAsync(EditRecipeInputModel input)
+        {
+            var recipeToEdit = this.recipesRepository.All().Where(x => x.Id == input.RecipeId).FirstOrDefault();
+
+            recipeToEdit.CategoryId = input.CategoryId;
+            recipeToEdit.Name = input.Name;
+            recipeToEdit.Instructions = input.Instructions;
+            recipeToEdit.PortionsCount = input.PortionsCount;
+            recipeToEdit.PreparationTime = TimeSpan.FromMinutes(input.PreparationTime);
+            recipeToEdit.CookingTime = TimeSpan.FromMinutes(input.CookingTime);
+
+            this.recipesRepository.Update(recipeToEdit);
+            await this.recipesRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<T> All<T>()
+        {
+            var recipes = this.recipesRepository.All().To<T>().ToList();
+
+            return recipes;
+        }
+
+        public EditRecipeInputModel ById(int recipeId)
+        {
+            var singleRecipe = this.recipesRepository.All().Where(x => x.Id == recipeId).FirstOrDefault();
+
+            var data = new EditRecipeInputModel()
+            {
+                RecipeId = singleRecipe.Id,
+                Name = singleRecipe.Name,
+                CategoryId = singleRecipe.CategoryId,
+                CookingTime = (int)singleRecipe.CookingTime.TotalMinutes,
+                PortionsCount = singleRecipe.PortionsCount,
+                Instructions = singleRecipe.Instructions,
+                //Ingredients = singleRecipe.Ingredients,
+                PreparationTime = (int)singleRecipe.PreparationTime.TotalMinutes,
+
+            };
+
+            return data;
         }
     }
 }

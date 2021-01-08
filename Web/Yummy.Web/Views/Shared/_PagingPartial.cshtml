@@ -1,0 +1,27 @@
+﻿@model Yummy.Web.ViewModels.Paging.PagingViewModel
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @if (!Model.HasPrevious) {<text>disabled</text> }">
+            <a class="page-link " asp-action="All" asp-route-id="@Model.PreviousPage">Previous</a>
+        </li>
+        @for (int i = Model.CurrentPage - 2; i < Model.CurrentPage; i++)
+        {
+            if (i > 0)
+            {
+                <li class="page-item"><a class="page-link active" asp-route-id="@i">@i</a></li>
+            }
+        }
+        <li class="page-item"><a class="page-link active" asp-route-id="@Model.CurrentPage">...</a></li>
+        @for (int i = Model.CurrentPage + 1; i < Model.CurrentPage + 2; i++)
+        {
+            if (i <= Model.PagesCount)
+            {
+                <li class="page-item"><a class="page-link active" asp-route-id="@i">@i</a></li>
+            }
+        }
+        <li class="page-item @if (!Model.HasNext) {<text>disabled</text> }">
+            <a class="page-link" asp-route-id="@Model.NextPage">Next</a>
+        </li>
+    </ul>
+</nav>
