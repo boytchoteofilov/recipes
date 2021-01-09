@@ -2,8 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using Yummy.Data.Common.Repositories;
@@ -24,7 +24,7 @@
             this.ingredientsRepository = ingredientsRepository;
         }
 
-        public async Task CreateRecipeAsync(CreateRecipeInputModel input, string userId)
+        public async Task CreateRecipeAsync(CreateRecipeInputModel input, string userId, string webRoot)
         {
             var recipe = new Recipe()
             {
@@ -39,7 +39,7 @@
 
             foreach (var ingredientItem in input.Ingredients)
             {
-                var ingredient = this.ingredientsRepository.AllAsNoTracking().FirstOrDefault(x => x.Name == ingredientItem.IngredientName);
+                var ingredient = this.ingredientsRepository.All().FirstOrDefault(x => x.Name == ingredientItem.IngredientName);
                 if (ingredient == null)
                 {
                     ingredient = new Ingredient()
@@ -53,6 +53,38 @@
                     Ingredient = ingredient,
                     Quantity = ingredientItem.IngredientQuantity,
                 });
+            }
+
+            var imageAllowedExtentions = new string[] { "png", "gif", "jpg" };
+            foreach (var image in input.Images)
+            {
+                var extension = Path.GetExtension(image.FileName);
+                var wwwroot = webRoot;
+                Directory.CreateDirectory($"{wwwroot}/images/recipes/");
+
+                if (imageAllowedExtentions.Any(x => extension.Equals(x)))
+                {
+                    throw new Exception($"Invalid Image Extension! {extension}");
+                }
+
+                var imageDb = new Image()
+                {
+                    AddedByUserId = userId,
+
+                    // Recipe = recipe,
+                    Extension = extension,
+                };
+
+                var physicalPath = $"{wwwroot}/images/recipes/{imageDb.Id}{extension}";
+
+                // this will not work withou istantiating a HashSet<Image> in the Recipe class in the constructor
+                recipe.Images.Add(imageDb);
+
+                // Save the file on the physical drive
+                using (Stream fileStream = new FileStream(physicalPath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
             }
 
             await this.recipesRepository.AddAsync(recipe);
@@ -120,9 +152,9 @@
                 CookingTime = (int)singleRecipe.CookingTime.TotalMinutes,
                 PortionsCount = singleRecipe.PortionsCount,
                 Instructions = singleRecipe.Instructions,
-                //Ingredients = singleRecipe.Ingredients,
-                PreparationTime = (int)singleRecipe.PreparationTime.TotalMinutes,
 
+                // Ingredients = singleRecipe.Ingredients,
+                PreparationTime = (int)singleRecipe.PreparationTime.TotalMinutes,
             };
 
             return data;

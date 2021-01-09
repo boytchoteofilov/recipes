@@ -1,9 +1,11 @@
 ﻿namespace Yummy.Web.Controllers
 {
+    using System;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Yummy.Data.Models;
@@ -16,21 +18,30 @@
         private readonly ICategoriesService categoriesService;
         private readonly IRecipeService recipeService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IWebHostEnvironment env;
 
         public RecipesController(
             ICategoriesService categoriesService,
             IRecipeService recipeService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IWebHostEnvironment env)
         {
             this.categoriesService = categoriesService;
             this.recipeService = recipeService;
             this.userManager = userManager;
+            this.env = env;
         }
 
         public IActionResult All(int id = 1)
         {
+            if (id <= 0)
+            {
+                return this.NotFound();
+            }
+
             var currentPage = id;
             var itemsPerPage = 12;
+
             var vm = new RecipesListViewModel()
             {
                 ItemsPerPage = itemsPerPage,
@@ -91,7 +102,18 @@
             // user taken from the cookie
             // var userId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var user = await this.userManager.GetUserAsync(this.User);
-            await this.recipeService.CreateRecipeAsync(input, user.Id);
+            var webRoot = this.env.WebRootPath;
+
+            try
+            {
+                await this.recipeService.CreateRecipeAsync(input, user.Id, webRoot);
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.InnerException.ToString());
+                input.Categories = this.categoriesService.GetAll<CategoriesForDropdownMenuIM>();
+                return this.View(input);
+            }
 
             ////TODO: redirect to show the recipe
             return this.Redirect("/");

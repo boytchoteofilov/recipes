@@ -10,6 +10,7 @@
         public Recipe()
         {
             this.Ingredients = new HashSet<RecipeIngredient>();
+            this.Images = new HashSet<Image>();
         }
 
         public string Name { get; set; }

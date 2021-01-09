@@ -40,11 +40,11 @@
 
         public IEnumerable<CategoriesForDropdownMenuIM> Categories { get; set; }
 
-        //public void CreateMappings(IProfileExpression configuration)
-        //{
+        // public void CreateMappings(IProfileExpression configuration)
+        // {
         //    configuration.CreateMap<Recipe, EditRecipeInputModel>()
         //        .ForMember(r => r.CookingTime, opt => opt.MapFrom(x => x.CookingTime.TotalMinutes))
         //        .ForMember(r => r.PreparationTime, opt => opt.MapFrom(x => x.PreparationTime.TotalMinutes));
-        //}
+        // }
     }
 }

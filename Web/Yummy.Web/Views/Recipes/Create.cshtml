@@ -5,7 +5,7 @@
 }
 <h1>@this.ViewData["Title"]</h1>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 
     <div asp-validation-summary="All"></div>
 
@@ -38,6 +38,11 @@
         <label asp-for="CategoryId" class="col-form-label col-sm-2"></label>
         <select asp-for="CategoryId" asp-items="categories" class="form-control col-sm-4"></select>
         <span asp-validation-for="CategoryId" class="col-form-label col-sm-4"></span>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Images" class="col-form-label col-sm-2"></label>
+        <input asp-for="Images" class="form-control col-sm-4" />
+        <span asp-validation-for="Images" class="col-form-label col-sm-4"></span>
     </div>
 
     <div class="form-group row">

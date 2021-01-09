@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using Microsoft.AspNetCore.Http;
     using Yummy.Web.ViewModels.Categories;
 
     public class CreateRecipeInputModel
@@ -33,5 +34,7 @@
         public IEnumerable<RecipeIngredientsInputModel> Ingredients { get; set; }
 
         public IEnumerable<CategoriesForDropdownMenuIM> Categories { get; set; }
+
+        public IEnumerable<IFormFile> Images { get; set; }
     }
 }

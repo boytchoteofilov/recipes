@@ -7,7 +7,7 @@
 
     public interface IRecipeService
     {
-        Task CreateRecipeAsync(CreateRecipeInputModel input, string userId);
+        Task CreateRecipeAsync(CreateRecipeInputModel input, string userId, string webRoot);
 
         Task UpdateRecipeAsync(EditRecipeInputModel input);
 
