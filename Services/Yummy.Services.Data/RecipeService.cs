@@ -140,6 +140,7 @@
             return recipes;
         }
 
+
         public EditRecipeInputModel ById(int recipeId)
         {
             var singleRecipe = this.recipesRepository.All().Where(x => x.Id == recipeId).FirstOrDefault();
@@ -158,6 +159,13 @@
             };
 
             return data;
+        }
+
+        public T GetById<T>(int id)
+        {
+            var entity = this.recipesRepository.All().Where(x => x.Id == id).To<T>().FirstOrDefault();
+
+            return entity;
         }
     }
 }

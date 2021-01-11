@@ -52,6 +52,12 @@
             return this.View(vm);
         }
 
+        public IActionResult ById(int id)
+        {
+            var singleRecipe = this.recipeService.GetById<SingleRecipeViewModel>(id);
+            return this.View(singleRecipe);
+        }
+
         [Authorize]
         public IActionResult Edit(int id)
         {
