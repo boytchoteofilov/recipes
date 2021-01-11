@@ -62,7 +62,9 @@
         public IActionResult Edit(int id)
         {
             var categories = this.categoriesService.GetAll<CategoriesForDropdownMenuIM>();
-            var vm = this.recipeService.ById(id);
+            var vm = this.recipeService.GetById<EditRecipeInputModel>(id);
+            vm.Categories = categories;
+            vm.RecipeId = id;
 
             return this.View(vm);
         }

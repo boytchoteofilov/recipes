@@ -16,8 +16,5 @@
         IEnumerable<T> AllPaged<T>(int page, int itemsPerPage);
 
         IEnumerable<T> All<T>();
-
-        EditRecipeInputModel ById(int recipeId);
-
     }
 }

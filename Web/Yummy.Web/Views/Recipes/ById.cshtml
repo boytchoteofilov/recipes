@@ -12,14 +12,14 @@
                     <div class="row mb-4">
                         <div class="col-xl-9 col-12">
                             <ul class="entry-meta">
-                                <li class="single-meta">
-                                    
-                                   <i class="far fa-calendar-alt"></i>@Model.CreatedOn
+                                <li class="single-meta">                                    
+                                   <i class="far fa-calendar-alt"></i> 
+                                   <span>@Model.CreatedOn</span>
                                     
                                 </li>
-                                <li class="single-meta">
-                                    
-                                        <i class="fas fa-user"></i>by <span>@Model.AddedByUserUserName</span>
+                                <li class="single-meta">                                    
+                                        <i class="fas fa-user"></i> by
+                                    <span>@(Model.AddedByUserUserName ?? "anonimous")</span>
                                    
                                 </li>
                                 <li class="single-meta">

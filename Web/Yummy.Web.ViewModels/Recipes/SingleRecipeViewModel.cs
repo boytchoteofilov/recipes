@@ -18,9 +18,9 @@
 
         public DateTime CreatedOn { get; set; }
 
-        public TimeSpan PreparationTime { get; set; }
+        public int PreparationTime { get; set; }
 
-        public TimeSpan CookingTime { get; set; }
+        public int CookingTime { get; set; }
 
         public int PortionsCount { get; set; }
 
