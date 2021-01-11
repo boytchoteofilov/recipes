@@ -12,19 +12,23 @@
 
     public class SingleRecipeViewModel : IMapFrom<Recipe>, IHaveCustomMappings
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
         public string Instructions { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
-        public int PreparationTime { get; set; }
+        public TimeSpan PreparationTime { get; set; }
 
-        public int CookingTime { get; set; }
+        public TimeSpan CookingTime { get; set; }
 
         public int PortionsCount { get; set; }
 
         public string OriginalUrl { get; set; }
+
+        public double AverageVote { get; set; }
 
         public string AddedByUserUserName { get; set; }
 
