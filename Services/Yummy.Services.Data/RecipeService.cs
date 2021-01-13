@@ -166,5 +166,17 @@
 
             return entity;
         }
+
+        public IEnumerable<T> Random<T>(int count)
+        {
+            var fewRandom = this.recipesRepository
+                .All()
+                .OrderBy(x => Guid.NewGuid()) // special case in EF to sort an entity randomly
+                .Take(count)
+                .To<T>()
+                .ToList();
+
+            return fewRandom;
+        }
     }
 }

@@ -16,5 +16,7 @@
         IEnumerable<T> AllPaged<T>(int page, int itemsPerPage);
 
         IEnumerable<T> All<T>();
+
+        IEnumerable<T> Random<T>(int count);
     }
 }

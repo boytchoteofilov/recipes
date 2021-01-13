@@ -8,6 +8,7 @@
     using Yummy.Data.Common.Repositories;
     using Yummy.Data.Models;
     using Yummy.Services.Data;
+    using Yummy.Services.Mapping;
     using Yummy.Web.ViewModels;
     using Yummy.Web.ViewModels.Home;
 
@@ -20,17 +21,20 @@
         private readonly IDeletableEntityRepository<Recipe> recipesRepository;
         private readonly ApplicationDbContext db;
         private readonly IGetCountsService countsService;
+        private readonly IRecipeService recipeService;
 
         public HomeController(
             IDeletableEntityRepository<Category> categoriesRepository,
             IDeletableEntityRepository<Recipe> recipesRepository,
             ApplicationDbContext db,
-            IGetCountsService countsService)
+            IGetCountsService countsService,
+            IRecipeService recipeService)
         {
             this.categoriesRepository = categoriesRepository;
             this.recipesRepository = recipesRepository;
             this.db = db;
             this.countsService = countsService;
+            this.recipeService = recipeService;
         }
 
         public IActionResult Index()
@@ -39,6 +43,7 @@
             {
                 CategoriesCount = this.categoriesRepository.All().Count(),
                 RecepiesCount = this.recipesRepository.All().Count(),
+                RandomRecipes = this.recipeService.Random<IndexRandomRecipesViewModel>(6),
             };
 
             return this.View(viewModel);

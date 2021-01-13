@@ -44,12 +44,21 @@
         <input asp-for="Images" class="form-control col-sm-4" />
         <span asp-validation-for="Images" class="col-form-label col-sm-4"></span>
     </div>
-
     <div class="form-group row">
         <label asp-for="Ingredients" class="col-form-label col-sm-2"></label>
-        <span id="Ingredients" class="col-sm-6"></span>
-        <a class="btn btn-success" onclick="AddIngredient()">+</a>
     </div>
+    <div class="form-group row">
+        <div id="Ingredients" class="col-md-6">
+            <label> Name: </label>
+            <input type='text' name='Ingredients.IngredientName' />
+            <label> Quantity: </label>
+            <input name='Ingredients.IngredientQuantity' />
+        </div>
+        <div>
+            <a class="btn btn-success" onclick="AddIngredient()">+</a>
+        </div>
+    </div>
+
 
     <input type="submit" class="btn btn-primary" />
 </form>
@@ -58,7 +67,7 @@
     <script>
         var ingredientIndex = 0;
         function AddIngredient() {           
-            $('#Ingredients').append("<label> Name: </label> <input type='text' name='Ingredients[" + ingredientIndex + "].IngredientName' /> <label> Quantity: </label> <input name='Ingredients[" + ingredientIndex + "].IngredientQuantity' /> ");
+            $('#Ingredients').append("<br><label> Name: </label> <input type='text' name='Ingredients[" + ingredientIndex + "].IngredientName' /> <label> Quantity: </label> <input name='Ingredients[" + ingredientIndex + "].IngredientQuantity' /> ");
             ingredientIndex++;
             console.log(ingredientIndex);
         }

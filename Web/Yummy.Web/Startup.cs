@@ -70,6 +70,7 @@
             services.AddTransient<ISettingsService, SettingsService>();
             services.AddTransient<IGetCountsService, GetCountsService>();
             services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<Yummy.Services.Data.Admin.ICategoriesService, Yummy.Services.Data.Admin.CategoriesService>();
             services.AddTransient<IRecipeService, RecipeService>();
             services.AddTransient<IVotesService, VotesService>();
         }

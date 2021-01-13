@@ -1,0 +1,20 @@
+﻿@using Yummy.Web.ViewModels.Administration.Categories
+@model AllCategoriesViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+@foreach (var category in Model.Categories)
+{
+    <div>@category.Id</div>
+    <div>@category.Name</div>
+    <div><a asp-area="Administration" asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id">Edit</a></div>
+    <div><a asp-area="Administration" asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id">Edit</a></div>
+}

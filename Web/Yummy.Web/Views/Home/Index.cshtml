@@ -1,20 +1,32 @@
 ﻿@using Yummy.Common
 @model Yummy.Web.ViewModels.Home.IndexViewModel
- 
+
 @{
     this.ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div class="text-center row">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
-    
-    <div class="col-md-4">       
-        <p>All models count using repository in the controller:</p>
-        <ul class="offset-md-4 list-group">
-            <li class="bg-light list-group-item">Ingredients: @Model.IngredientsCount</li>
-            <li class="bg-info list-group-item">Categories: @Model.CategoriesCount</li>
-            <li class="bg-primary list-group-item">Images: @Model.ImagesCount</li>
-            <li class="bg-danger list-group-item">Recipes: @Model.RecepiesCount</li>            
-        </ul>
-    </div>
+        <div class="col-md-8 row">
+            @foreach (var recipe in Model.RandomRecipes)
+            {
+                <div class="card col-md-6" style="width: 18rem;">
+                    <img src="~/@recipe.ImageUrlAddress" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@recipe.Name</h5>
+                        <p class="card-text">@recipe.CategoryName</p>
+                        <a asp-controller="Recipe" asp-action="ById" asp-route-id="@recipe.Id" class="btn btn-primary">Bake it !!!</a>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-4">
+            <p>Statistics:</p>
+            <ul class="offset-md-4 list-group">
+                <li class="bg-light list-group-item">Ingredients: @Model.IngredientsCount</li>
+                <li class="bg-info list-group-item">Categories: @Model.CategoriesCount</li>
+                <li class="bg-primary list-group-item">Images: @Model.ImagesCount</li>
+                <li class="bg-danger list-group-item">Recipes: @Model.RecepiesCount</li>
+            </ul>
+        </div>
 </div>
