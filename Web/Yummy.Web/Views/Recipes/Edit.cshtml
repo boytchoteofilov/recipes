@@ -1,4 +1,4 @@
-﻿@model Yummy.Web.ViewModels.Recipes.EditRecipeInputModel
+﻿@model Yummy.Web.ViewModels.Recipes.RecipeEditInputModel
 @{
     this.ViewData["Title"] = "Edit recipe #";
     var categories = Model.Categories.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
@@ -9,7 +9,7 @@
 
     <div asp-validation-summary="All"></div>
     <div>
-        <input type="hidden" asp-for="RecipeId"/>
+        <input type="hidden" asp-for="Id" />
     </div>
     <div class="form-group row">
         <label asp-for="Name" class="col-form-label col-sm-2"></label>
@@ -43,9 +43,40 @@
     </div>
 
     <div class="form-group row">
-        <label asp-for="Ingredients" class="col-form-label col-sm-2"></label>
-        <span id="Ingredients" class="col-sm-6"></span>
-        <a class="btn btn-success" onclick="AddIngredient()">+</a>
+        <label for="Ingredients" class="col-form-label col-sm-2"></label>
+
+        <div class="form-group row">
+            <div id="ingredients" class="col-md-6">
+                @for (int i = 0; i < Model.Ingredients.Count(); i++)
+                {
+                    var ingredientsAsList = Model.Ingredients.Select(x => x).ToList();
+                    var ingredientName = ingredientsAsList[i].IngredientName;
+                    var ingredientQuantity =ingredientsAsList[i].IngredientQuantity;
+                    
+                    var ingrId = ingredientsAsList[i].Id;
+
+                        <input type="hidden" name="Ingredients[@i].Id" value="@ingrId" />
+
+                        <label>Name:</label>
+
+                        <input type="text" name="Ingredients[@i].IngredientName" value="@ingredientName" />
+
+                        <label>Quantity:</label>
+
+                        <input name="Ingredients[@i].IngredientQuantity" value="@ingredientQuantity" />
+                }
+                @*@foreach (var ingredient in Model.Ingredients)
+                {
+                    <label>Name:</label>
+                    <input type="text" name="Ingredients.IngredientName" value="@ingredient.IngredientName" />
+                    <label>Quantity:</label>
+                    <input name="Ingredients.IngredientQuantity" value="@ingredient.Quantity" />
+                }*@
+            </div>
+            <div>
+                <a class="btn btn-success" onclick="AddIngredient()">+</a>
+            </div>
+        </div>
     </div>
 
     <input type="submit" class="btn btn-primary" />
@@ -55,9 +86,8 @@
     <script>
         var ingredientIndex = 0;
         function AddIngredient() {           
-            $('#Ingredients').append("<label> Name: </label> <input type='text' name='Ingredients[" + ingredientIndex + "].IngredientName' /> <label> Quantity: </label> <input name='Ingredients[" + ingredientIndex + "].IngredientQuantity' /> ");
+            $('#ingredients').append("<label> Name: </label> <input type='text' name='Ingredients[" + ingredientIndex + "].IngredientName' /> <label> Quantity: </label> <input name='Ingredients[" + ingredientIndex + "].IngredientQuantity' /> ");
             ingredientIndex++;
-            console.log(ingredientIndex);
         }
     </script>
 } 

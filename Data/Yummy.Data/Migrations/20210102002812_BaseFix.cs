@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace Yummy.Data.Migrations
+﻿namespace Yummy.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class BaseFix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,7 +1,7 @@
-﻿@model Yummy.Web.ViewModels.Recipes.CreateRecipeInputModel
+﻿@model Yummy.Web.ViewModels.Recipes.RecipeCreateInputModel
 @{
     this.ViewData["Title"] = "Create new recipe";
-    var categories = Model.Categories.Select(x => new SelectListItem(x.Name, x.Id.ToString()));
+    var categories = Model.Categories.Select(x => new SelectListItem(x.Name, x.Id.ToString())); 
 }
 <h1>@this.ViewData["Title"]</h1>
 
@@ -48,11 +48,14 @@
         <label asp-for="Ingredients" class="col-form-label col-sm-2"></label>
     </div>
     <div class="form-group row">
-        <div id="Ingredients" class="col-md-6">
-            <label> Name: </label>
-            <input type='text' name='Ingredients.IngredientName' />
-            <label> Quantity: </label>
-            <input name='Ingredients.IngredientQuantity' />
+        <div id="ingredients" class="col-md-6">           
+                @foreach (var ingredient in Model.Ingredients)
+                {
+                    <label>Name:</label>
+                    <input type="text" name="Ingredients.IngredientName" value="@ingredient.IngredientName" />
+                    <label>Quantity:</label>
+                    <input name="Ingredients.IngredientQuantity" value="@ingredient.IngredientQuantity" />
+                }           
         </div>
         <div>
             <a class="btn btn-success" onclick="AddIngredient()">+</a>
@@ -66,10 +69,9 @@
 @section Scripts{
     <script>
         var ingredientIndex = 0;
-        function AddIngredient() {           
-            $('#Ingredients').append("<br><label> Name: </label> <input type='text' name='Ingredients[" + ingredientIndex + "].IngredientName' /> <label> Quantity: </label> <input name='Ingredients[" + ingredientIndex + "].IngredientQuantity' /> ");
+        function AddIngredient() {
+            $('#ingredients').append("<br><label> Name: </label> <input type='text' name='Ingredients[" + ingredientIndex + "].IngredientName'/> <label> Quantity: </label > <input name='Ingredients[" + ingredientIndex + "].IngredientQuantity' /> ");
             ingredientIndex++;
-            console.log(ingredientIndex);
         }
     </script>
 } 

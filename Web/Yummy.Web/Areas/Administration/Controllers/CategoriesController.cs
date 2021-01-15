@@ -1,27 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Yummy.Data;
-using Yummy.Data.Models;
-using Yummy.Services.Data.Admin;
-using Yummy.Web.ViewModels.Administration.Categories;
-
-namespace Yummy.Web.Areas.Administration.Controllers
+﻿namespace Yummy.Web.Areas.Administration.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+    using Yummy.Data;
+    using Yummy.Data.Models;
+    using Yummy.Services.Data.Admin;
+    using Yummy.Web.ViewModels.Administration.Categories;
+
     [Area("Administration")]
     public class CategoriesController : Controller // TODO: change wit admincontroller
     {
         private readonly ICategoriesService categoriesService;
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext db;
 
         public CategoriesController(ICategoriesService categoriesService, ApplicationDbContext context)
         {
             this.categoriesService = categoriesService;
-            _context = context;
+            this.db = context;
         }
 
         // GET: Administration/Categories
@@ -40,23 +41,23 @@ namespace Yummy.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var category = await _context.Categories
+            var category = await this.db.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (category == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(category);
+            return this.View(category);
         }
 
         // GET: Administration/Categories/Create
         public IActionResult Create()
         {
-            return View();
+            return this.View();
         }
 
         // POST: Administration/Categories/Create
@@ -66,13 +67,14 @@ namespace Yummy.Web.Areas.Administration.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Category category)
         {
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
-                _context.Add(category);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                this.db.Add(category);
+                await this.db.SaveChangesAsync();
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(category);
+
+            return this.View(category);
         }
 
         // GET: Administration/Categories/Edit/5
@@ -80,15 +82,16 @@ namespace Yummy.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
+            var category = await this.db.Categories.FindAsync(id);
             if (category == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
-            return View(category);
+
+            return this.View(category);
         }
 
         // POST: Administration/Categories/Edit/5
@@ -100,30 +103,32 @@ namespace Yummy.Web.Areas.Administration.Controllers
         {
             if (id != category.Id)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (this.ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
+                    this.db.Update(category);
+                    await this.db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoryExists(category.Id))
+                    if (!this.CategoryExists(category.Id))
                     {
-                        return NotFound();
+                        return this.NotFound();
                     }
                     else
                     {
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
+                return this.RedirectToAction(nameof(this.Index));
             }
-            return View(category);
+
+            return this.View(category);
         }
 
         // GET: Administration/Categories/Delete/5
@@ -131,33 +136,34 @@ namespace Yummy.Web.Areas.Administration.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            var category = await _context.Categories
+            var category = await this.db.Categories
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (category == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(category);
+            return this.View(category);
         }
 
         // POST: Administration/Categories/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var category = await this.db.Categories.FindAsync(id);
+            this.db.Categories.Remove(category);
+            await this.db.SaveChangesAsync();
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool CategoryExists(int id)
         {
-            return _context.Categories.Any(e => e.Id == id);
+            return this.db.Categories.Any(e => e.Id == id);
         }
     }
 }

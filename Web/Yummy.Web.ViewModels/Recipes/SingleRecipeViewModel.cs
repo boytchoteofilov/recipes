@@ -34,7 +34,7 @@
 
         public string CategoryName { get; set; }
 
-        public virtual ICollection<IngredientsViewModel> Ingredients { get; set; }
+        public virtual ICollection<RecipeIngredientsInputModel> Ingredients { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

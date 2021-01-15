@@ -62,16 +62,16 @@
         public IActionResult Edit(int id)
         {
             var categories = this.categoriesService.GetAll<CategoriesForDropdownMenuIM>();
-            var vm = this.recipeService.GetById<EditRecipeInputModel>(id);
+            var vm = this.recipeService.GetById<RecipeEditInputModel>(id);
+
             vm.Categories = categories;
-            vm.RecipeId = id;
 
             return this.View(vm);
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Edit(EditRecipeInputModel input)
+        public async Task<IActionResult> Edit(RecipeEditInputModel input)
         {
             if (!this.ModelState.IsValid)
             {
@@ -82,14 +82,14 @@
 
             await this.recipeService.UpdateRecipeAsync(input);
 
-            return this.Redirect("/");
+            return this.RedirectToAction(nameof(this.ById), new { input.Id });
         }
 
         [Authorize]
         public IActionResult Create()
         {
             var categories = this.categoriesService.GetAll<CategoriesForDropdownMenuIM>();
-            var vm = new CreateRecipeInputModel()
+            var vm = new RecipeCreateInputModel()
             {
                 Categories = categories,
             };
@@ -99,7 +99,7 @@
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(CreateRecipeInputModel input)
+        public async Task<IActionResult> Create(RecipeCreateInputModel input)
         {
             if (!this.ModelState.IsValid)
             {

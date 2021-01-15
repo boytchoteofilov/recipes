@@ -7,8 +7,13 @@
     using Microsoft.AspNetCore.Http;
     using Yummy.Web.ViewModels.Categories;
 
-    public class CreateRecipeInputModel
+    public class RecipeCreateInputModel
     {
+        public RecipeCreateInputModel()
+        {
+            this.Ingredients = new HashSet<RecipeIngredientsInputModel>();
+        }
+
         [Required]
         [MinLength(6)]
         public string Name { get; set; }

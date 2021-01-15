@@ -24,7 +24,7 @@
             this.ingredientsRepository = ingredientsRepository;
         }
 
-        public async Task CreateRecipeAsync(CreateRecipeInputModel input, string userId, string webRoot)
+        public async Task CreateRecipeAsync(RecipeCreateInputModel input, string userId, string webRoot)
         {
             var recipe = new Recipe()
             {
@@ -51,7 +51,7 @@
                 recipe.Ingredients.Add(new RecipeIngredient()
                 {
                     Ingredient = ingredient,
-                    Quantity = ingredientItem.IngredientQuantity,
+                    IngredientQuantity = ingredientItem.IngredientQuantity,
                 });
             }
 
@@ -91,6 +91,25 @@
             await this.recipesRepository.SaveChangesAsync();
         }
 
+        public async Task UpdateRecipeAsync(RecipeEditInputModel input)
+        {
+            var recipeToEdit = this.recipesRepository.All().FirstOrDefault(x => x.Id == input.Id);
+
+            recipeToEdit.CategoryId = input.CategoryId;
+            recipeToEdit.Name = input.Name;
+            recipeToEdit.Instructions = input.Instructions;
+            recipeToEdit.PortionsCount = input.PortionsCount;
+            recipeToEdit.PreparationTime = TimeSpan.FromMinutes(input.PreparationTime);
+            recipeToEdit.CookingTime = TimeSpan.FromMinutes(input.CookingTime);
+
+            foreach (var item in recipeToEdit.Ingredients)
+            {
+                recipeToEdit.Ingredients.Add(item);
+            }
+
+            await this.recipesRepository.SaveChangesAsync();
+        }
+
         public IEnumerable<T> AllPaged<T>(int page, int itemsPerPage)
         {
             // must be sorted in order to use Skip() and Take()
@@ -118,21 +137,6 @@
             return recipesPerPage;
         }
 
-        public async Task UpdateRecipeAsync(EditRecipeInputModel input)
-        {
-            var recipeToEdit = this.recipesRepository.All().Where(x => x.Id == input.RecipeId).FirstOrDefault();
-
-            recipeToEdit.CategoryId = input.CategoryId;
-            recipeToEdit.Name = input.Name;
-            recipeToEdit.Instructions = input.Instructions;
-            recipeToEdit.PortionsCount = input.PortionsCount;
-            recipeToEdit.PreparationTime = input.PreparationTime;
-            recipeToEdit.CookingTime = input.CookingTime;
-
-            this.recipesRepository.Update(recipeToEdit);
-            await this.recipesRepository.SaveChangesAsync();
-        }
-
         public IEnumerable<T> All<T>()
         {
             var recipes = this.recipesRepository.All().To<T>().ToList();
@@ -140,21 +144,21 @@
             return recipes;
         }
 
-        public EditRecipeInputModel ById(int recipeId)
+        public RecipeEditInputModel ById(int recipeId)
         {
             var singleRecipe = this.recipesRepository.All().Where(x => x.Id == recipeId).FirstOrDefault();
 
-            var data = new EditRecipeInputModel()
+            var data = new RecipeEditInputModel()
             {
-                RecipeId = singleRecipe.Id,
+                Id = singleRecipe.Id,
                 Name = singleRecipe.Name,
                 CategoryId = singleRecipe.CategoryId,
-                CookingTime = singleRecipe.CookingTime,
+                PreparationTime = (int)singleRecipe.PreparationTime.TotalMinutes,
+                CookingTime = (int)singleRecipe.CookingTime.TotalMinutes,
                 PortionsCount = singleRecipe.PortionsCount,
                 Instructions = singleRecipe.Instructions,
 
                 // Ingredients = singleRecipe.Ingredients,
-                PreparationTime = singleRecipe.PreparationTime,
             };
 
             return data;

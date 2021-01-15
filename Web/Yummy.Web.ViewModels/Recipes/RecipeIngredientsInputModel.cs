@@ -2,8 +2,13 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class RecipeIngredientsInputModel
+    using Yummy.Data.Models;
+    using Yummy.Services.Mapping;
+
+    public class RecipeIngredientsInputModel : IMapFrom<RecipeIngredient>
     {
+        public int Id { get; set; }
+
         [Required]
         [MinLength(3)]
         public string IngredientName { get; set; }
