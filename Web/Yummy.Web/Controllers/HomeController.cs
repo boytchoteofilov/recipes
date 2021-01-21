@@ -49,11 +49,12 @@
             return this.View(viewModel);
         }
 
-        public IActionResult Db()
+        public ActionResult<DbViewModel> Db()
         {
             var viewModel = new DbViewModel()
             {
                 CategoriesCount = this.db.Categories.Count(),
+                CategoryName = this.db.Categories.FirstOrDefault().Name,
             };
 
             return this.View(viewModel);
